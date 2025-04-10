@@ -41,7 +41,7 @@ python xxx.py
 ### Tech Stack: 
 - Python – main programming language
 - Tkinter – GUI framework
-- cryptography – Used for AES encryption and secure key derivation (version 44.0.2)
+- cryptography – Used for AES encryption and secure key derivation (version 44.0.2) https://pypi.org/project/cryptography/
 
 ### Sources
 - Understanting AES : https://www.youtube.com/watch?v=O4xNJsjtN6E
