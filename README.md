@@ -4,7 +4,7 @@
 # 🔐 PasswordVault – A Simple Password Manager
 
 ## Project Description
-**PasswordVault** is a lightweight password manager with a graphical user interface (GUI) built in **...**
+**PasswordVault** is a lightweight password manager with a graphical user interface (GUI) built in **...**  
 It allows users to:
 - Add and store login credentials (e.g. website, username, password)
 - View saved credentials in a list
