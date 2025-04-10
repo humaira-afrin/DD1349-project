@@ -25,8 +25,23 @@ The goal is to deliver a **Minimum Viable Product (MVP)** with essential functio
 
 ### ✅ Requirements
 
-- Java 17 or higher 
+- Java 17 or higher
+- Python 3.8 or higher
+- `pip` (Python package installer)
 
+### Dependencies
+```bash
+pip install cryptography tk
+```
 ### ▶️ Run the application
+python xxx.py
 
 **Att komplettera**
+
+### Tech Stack: 
+- Python – main programming language
+- Tkinter – GUI framework
+- cryptography – Used for AES encryption and secure key derivation (version 44.0.2)
+
+### Sources
+- Understanting AES : https://www.youtube.com/watch?v=O4xNJsjtN6E
