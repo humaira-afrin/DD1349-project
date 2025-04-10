@@ -21,7 +21,7 @@ The goal is to deliver a **Minimum Viable Product (MVP)** with essential functio
 
 ---
 
-## Installation & Usage
+## 🛠 Installation & Usage
 
 ### ✅ Requirements
 
@@ -29,7 +29,7 @@ The goal is to deliver a **Minimum Viable Product (MVP)** with essential functio
 - Python 3.8 or higher
 - `pip` (Python package installer)
 
-### Dependencies
+### 📦 Dependencies
 ```bash
 pip install cryptography tk
 ```
@@ -38,7 +38,7 @@ python xxx.py
 
 **Att komplettera**
 
-### Tech Stack: 
+### 💻 Tech Stack: 
 - Python – main programming language
 - Tkinter – GUI framework
 - cryptography – Used for AES encryption and secure key derivation (version 44.0.2) https://pypi.org/project/cryptography/
