@@ -5,14 +5,17 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
+import json  
+
 BLOCK_SIZE = 128  # AES block size in bits
 
-
 class PasswordManager:
-    def __init__(self):
+    def __init__(self, storage_file="passwords.json"):
         self.master_hash = None
         self.aes_key = None
         self.password_store = {}
+        self.storage_file = storage_file
+        self.load_passwords()
 
     # --- Master password setup and verification ---
     def set_master_password(self):
@@ -69,7 +72,11 @@ class PasswordManager:
         site_password = input(f"Enter password for {site}: ")
         encrypted = self.encrypt(site_password)
         self.password_store[site] = encrypted
+        self.save_passwords()
+
         print(f":: Password for '{site}' stored securely.")
+
+
 
     def retrieve_password(self):
         site = input("Enter site name to retrieve password: ")
@@ -102,6 +109,24 @@ class PasswordManager:
             else:
                 print("X Invalid option. Please choose 1, 2, or 3.")
 
+    def save_passwords(self):
+        try:
+            with open(self.storage_file, "w") as f:
+                json.dump(self.password_store, f)
+            print("Passwords saved to file.")
+        except Exception as e:
+            print("X Error saving passwords:", e)
+
+    def load_passwords(self):
+        if os.path.exists(self.storage_file):
+            try:
+                with open(self.storage_file, "r") as f:
+                    self.password_store = json.load(f)
+                print("#### Loaded existing passwords from file.")
+            except Exception as e:
+                print("!! Failed to load saved passwords:", e)
+        else:
+            print("# No saved password file found")
 
 
   
