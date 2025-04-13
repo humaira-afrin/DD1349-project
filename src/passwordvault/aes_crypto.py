@@ -10,7 +10,7 @@ import hashlib
 BLOCK_SIZE = 128
 
 
-# Hash the master password (SHA-256 hashing algoritm) ---
+# --- Hash the master password (SHA-256 hashing algoritm) ---
 def hash_password(password: str) -> str:
     hashed = hashlib.sha256(password.encode()).hexdigest()
     return hashed
@@ -43,7 +43,30 @@ def decrypt(encoded_data: str, key: bytes) -> str:
 
     return decrypted_data.decode()
 
+def main():
+    print("Welcome to Simple Password Manager!")
 
+    #  Get and hash master password
+    master_password = input("Set your master password: ")
+    hashed_master = hash_password(master_password)
+    print(f"🔐 Master password hashed (stored securely): {hashed_master}\n")
+
+    #  Ask for a site password to encrypt
+    site = input("Enter the site name (e.g. canvas): ")
+    site_password = input(f"Enter password for {site}: ")
+
+    #  Derive AES key from master password using SHA-256
+    aes_key = hashlib.sha256(master_password.encode()).digest()
+
+    encrypted_site_password = encrypt(site_password, aes_key)
+    print(f"🔒 Encrypted password for {site}: {encrypted_site_password}\n")
+
+    # testing: decrypt it back
+    decrypted = decrypt(encrypted_site_password, aes_key)
+    print(f"🔓 Decrypted password: {decrypted}")
+
+if __name__ == "__main__":
+    main()
 
 
 
