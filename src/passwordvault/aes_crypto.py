@@ -10,12 +10,18 @@ import json
 BLOCK_SIZE = 128  # AES block size in bits
 
 class PasswordManager:
+
     def __init__(self, storage_file="passwords.json"):
-        self.master_hash = None
+        #self.master_hash = None
+        #self.aes_key = None
+        self.master_password = "hej123"  
+        self.master_hash = self.hash_password(self.master_password)
         self.aes_key = None
+        #self.aes_key = self.derive_key(self.master_password)
         self.password_store = {}
         self.storage_file = storage_file
         self.load_passwords()
+
 
     # --- Master password setup and verification ---
     def set_master_password(self):
@@ -33,6 +39,7 @@ class PasswordManager:
         else:
             print("X Incorrect master password. Access denied.")
             return False
+
 
     def hash_password(self, password: str) -> str:
         return hashlib.sha256(password.encode()).hexdigest()
@@ -72,7 +79,7 @@ class PasswordManager:
         site_password = input(f"Enter password for {site}: ")
         encrypted = self.encrypt(site_password)
         self.password_store[site] = encrypted
-        self.save_passwords()
+        self.save_passwords() # stores in the json file
 
         print(f":: Password for '{site}' stored securely.")
 
@@ -132,13 +139,20 @@ class PasswordManager:
   
 
 
+# def main():
+#     manager = PasswordManager()
+#     manager.set_master_password()
+
+#     if manager.verify_master_password():
+#         manager.show_menu()
+
+
+
 def main():
     manager = PasswordManager()
-    manager.set_master_password()
 
     if manager.verify_master_password():
         manager.show_menu()
-
-
 if __name__ == "__main__":
     main()
+    
