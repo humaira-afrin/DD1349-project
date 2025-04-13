@@ -81,3 +81,39 @@ class PasswordManager:
                 print(" X Failed to decrypt. Wrong key?")
         else:
             print("!!! No password stored for that site.")
+
+    # --- Menu ---
+    def show_menu(self):
+        while True:
+            print("\n--- Password Manager Menu ---")
+            print("1. Store new password")
+            print("2. Retrieve password")
+            print("3. Exit")
+
+            choice = input("Choose an option (1/2/3): ")
+
+            if choice == "1":
+                self.store_password()
+            elif choice == "2":
+                self.retrieve_password()
+            elif choice == "3":
+                print("<3 Exiting password manager. Goodbye!")
+                break
+            else:
+                print("X Invalid option. Please choose 1, 2, or 3.")
+
+
+
+  
+
+
+def main():
+    manager = PasswordManager()
+    manager.set_master_password()
+
+    if manager.verify_master_password():
+        manager.show_menu()
+
+
+if __name__ == "__main__":
+    main()
