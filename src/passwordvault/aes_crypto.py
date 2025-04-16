@@ -5,53 +5,45 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-import json  
+import json
 
 BLOCK_SIZE = 128  # AES block size in bits
 
 class PasswordManager:
 
     def __init__(self, storage_file="passwords.json"):
-        self.aes_key = None
+            self.aes_key = None
+            self.master_password = None
+            self.master_hash = None
+            self.password_store = {}
+            self.storage_file = storage_file
+
+    def first_time_setup(self, password):
+        self.master_password = password
+        self.master_hash = self.hash_password(password)
+        self.aes_key = self.derive_key(password)
         self.password_store = {}
-        self.storage_file = storage_file
+        self.save_passwords()
+        print("🔐 Master password set.\n")
 
-        if not os.path.exists(storage_file):
-            print("# No saved password file found \n")
-            print("""Welcome!
-            This is your personal, secure password manager.
+# --- Master password setup and verification ---
 
-            🔑 The first time you use the vault, you’ll be asked to create a master password.
-            This password will be used to encrypt and unlock all your saved credentials.
+    def login_with_password(self, password):
+        self.master_password = password
+        self.master_hash = self.hash_password(password)
+        self.aes_key = self.derive_key(password)
+        self.load_passwords()
 
-            🔐 You can:
-             - Save passwords for different websites or services
-             - View previously saved passwords (only if you enter the correct master password)
-             - Keep all your data encrypted and secure
-
-            🧠 Remember: If you forget your master password, your stored passwords can't be recovered!
-
-            Let's get started!
-            """)
-            self.set_master_password()
-        else:
-            self.master_password = input("Enter master password to access the system: ")
-            self.master_hash = self.hash_password(self.master_password)
-            self.aes_key = self.derive_key(self.master_password)
-            self.load_passwords()
-
-
-    # --- Master password setup and verification ---
-    def set_master_password(self):
+    """def set_master_password(self):
         password = input("Set your master password: ")
         self.master_hash = self.hash_password(password)
         self.aes_key = self.derive_key(password)
-        print("🔐 Master password set.\n")
+        print("🔐 Master password set.\n")"""
 
     def verify_master_password(self):
-        attempt = input("Enter master password to access the system: ")
-        if self.hash_password(attempt) == self.master_hash:
-            self.aes_key = self.derive_key(attempt)
+        #attempt = input("Enter master password to access the system: ")
+        if self.hash_password(self.master_password) == self.master_hash:
+            self.aes_key = self.derive_key(self.master_password)
             print(" Access granted.\n")
             return True
         else:
@@ -154,7 +146,7 @@ class PasswordManager:
             print("# No saved password file found")
 
 
-  
+
 
 
 # def main():
@@ -169,8 +161,31 @@ class PasswordManager:
 def main():
     manager = PasswordManager()
 
-    if manager.verify_master_password():
+    if not os.path.exists(manager.storage_file):
+        print("# No saved password file found \n")
+        print("""Welcome!
+This is your personal, secure password manager.
+
+🔑 The first time you use the vault, you’ll be asked to create a master password.
+This password will be used to encrypt and unlock all your saved credentials.
+
+🔐 You can:
+ - Save passwords for different websites or services
+ - View previously saved passwords (only if you enter the correct master password)
+ - Keep all your data encrypted and secure
+
+🧠 Remember: If you forget your master password, your stored passwords can't be recovered!
+
+Let's get started!
+""")
+        pw = input("Set your master password: ")
+        manager.first_time_setup(pw)
         manager.show_menu()
+    else:
+        pw = input("Enter master password to access the system: ")
+        manager.login_with_password(pw)
+        if manager.verify_master_password():
+            manager.show_menu()
+
 if __name__ == "__main__":
     main()
-    
