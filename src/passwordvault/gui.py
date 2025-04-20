@@ -10,17 +10,21 @@ class PasswordVaultGUI:
         self.root = root
         self.root.title("PasswordVault 🔐")
         self.root.geometry("600x500")
-
+        self.root.configure(bg="#FFC0CB")
         self.login_view()
 
     def login_view(self):
         self.clear_window()
 
-        tk.Label(self.root, text="Enter master password:").pack(pady=10)
-        self.pw_entry = tk.Entry(self.root, show="*")
+        frame = tk.Frame(self.root, bg="#FFC0CB")
+        frame.pack(expand=True)
+
+        tk.Label(frame, text="Enter master password:", font=("Arial", 18)).pack(pady=10)
+        self.pw_entry = tk.Entry(frame, show="*", font=("Arial", 12))
         self.pw_entry.pack()
 
-        tk.Button(self.root, text="Login", command=self.verify_password).pack(pady=10)
+        tk.Button(frame, text="Login", command=self.verify_password, font=("Arial", 12)).pack(pady=10)
+
 
     def verify_password(self):
         entered = self.pw_entry.get()
