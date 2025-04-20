@@ -6,6 +6,7 @@ from aes_crypto import PasswordManager
 class PasswordVaultGUI:
     def __init__(self, root):
         self.manager = PasswordManager()
+        self.manager.load_passwords()
         self.root = root
         self.root.title("PasswordVault 🔐")
         self.root.geometry("600x500")
