@@ -90,6 +90,7 @@ class PasswordVaultGUI:
         frame.pack(expand=True)
 
         tk.Label(frame, text="🔐 Welcome to PasswordVault", font=("Segoe UI", 18, "bold"), bg="#FFC0CB", fg="#333").pack(pady=20)
+        self.root.update_idletasks()  # rendering happens directly
 
         btn_store = tk.Button(frame, text="Store new password", command=self.store_view)
         btn_retrieve = tk.Button(frame, text="Retrieve password", command=self.retrieve_view)
@@ -127,6 +128,8 @@ class PasswordVaultGUI:
         back_btn = tk.Button(frame, text="Back", command=self.main_menu)
         self.style_button(back_btn)
         back_btn.pack(pady=5)
+        self.root.update_idletasks()
+
 
     def retrieve_view(self):
         self.clear_window()
@@ -152,6 +155,13 @@ class PasswordVaultGUI:
         retrieve_btn = tk.Button(frame, text="Retrieve", command=retrieve)
         self.style_button(retrieve_btn)
         retrieve_btn.pack(pady=10)
+
+        back_btn = tk.Button(frame, text="Back", command=self.main_menu)
+        self.style_button(back_btn)
+        back_btn.pack(pady=5)
+        self.root.update_idletasks()
+
+
 
     def clear_window(self):
         for widget in self.root.winfo_children():
