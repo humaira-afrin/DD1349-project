@@ -94,9 +94,11 @@ class PasswordVaultGUI:
 
         btn_store = tk.Button(frame, text="Store new password", command=self.store_view)
         btn_retrieve = tk.Button(frame, text="Retrieve password", command=self.retrieve_view)
+        btn_view_sites = tk.Button(frame, text="Saved sites", command=self.view_all_sites)  # New button to view all sites
         btn_exit = tk.Button(frame, text="Exit", command=self.root.quit)
 
-        for btn in [btn_store, btn_retrieve, btn_exit]:
+
+        for btn in [btn_store, btn_retrieve,btn_view_sites, btn_exit]:
             self.style_button(btn)
             btn.pack(pady=5)
 
@@ -146,6 +148,8 @@ class PasswordVaultGUI:
                 try:
                     decrypted = self.manager.decrypt(self.manager.password_store[site])
                     messagebox.showinfo("Password", f"Password for '{site}': {decrypted}")
+                    password_display = f"Site: {site}\nPassword: {decrypted}"
+                    tk.Label(self.root, text=password_display, font=("Arial", 12), bg="#FFC0CB", justify="left").pack(pady=10)
                 except Exception:
                     messagebox.showerror("Error", "Failed to decrypt.")
             else:
@@ -159,6 +163,49 @@ class PasswordVaultGUI:
         back_btn = tk.Button(frame, text="Back", command=self.main_menu)
         self.style_button(back_btn)
         back_btn.pack(pady=5)
+        self.root.update_idletasks()
+
+
+    def view_all_sites(self):
+        self.clear_window()
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame.pack(expand=True)
+
+        tk.Label(frame, text="Saved Sites and Passwords", font=("Arial", 16), bg="#FFC0CB").pack(pady=20)
+
+        site_listbox = tk.Listbox(frame, font=("Arial", 12), width=40, height=10)
+        site_listbox.pack(pady=10)
+
+        # site names
+        for site in self.manager.password_store:
+            site_listbox.insert(tk.END, site)
+
+        back_btn = tk.Button(frame, text="Back", command=self.main_menu)
+        self.style_button(back_btn)
+        back_btn.pack(pady=5)
+
+    def show_password():
+        selected_site = site_listbox.get(tk.ACTIVE)
+        if selected_site in self.manager.password_store:
+            try:
+                decrypted = self.manager.decrypt(self.manager.password_store[selected_site])
+                # Display the password in a pop-up message
+                messagebox.showinfo("Password", f"Password for '{selected_site}': {decrypted}")
+            except Exception:
+                messagebox.showerror("Error", "Failed to decrypt.")
+        else:
+            messagebox.showwarning("Not found", "Site not found.")
+
+        # Button to retrieve password for the selected site
+        retrieve_btn = tk.Button(frame, text="Show Password", command=show_password, font=("Arial", 12))
+        self.style_button(retrieve_btn)
+        retrieve_btn.pack(pady=10)
+
+        # Back button to return to the main menu
+        back_btn = tk.Button(frame, text="Back", command=self.main_menu, font=("Arial", 12))
+        self.style_button(back_btn)
+        back_btn.pack(pady=5)
+
         self.root.update_idletasks()
 
 
