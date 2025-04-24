@@ -52,7 +52,13 @@ python src/passwordvault/gui.py
 
 ## 📅 Weekly Milestones
 
-GitHub's **Issue Tracker** and **Milestones** is being used to manage weekly development. 
+GitHub's **Issue Tracker**, **Milestones**, and **Projects** features are being used to manage weekly progress and organize the development work.
+
+- ✅ **Milestones** track overall goals for each sprint
+- 🛠 **Issues** are used to break down tasks into manageable chunks
+- 📋 **Projects** (Kanban board) provide an overview of to-do, in-progress, and completed tasks
+
+This structure has helped maintain clear division of work, responsibility, and steady progress throughout the project.
 
 ## ✍️ Authors
 Elsa Kieffer  
