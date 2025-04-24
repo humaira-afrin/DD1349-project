@@ -25,7 +25,6 @@ The goal is to deliver a **Minimum Viable Product (MVP)** with essential functio
 
 ### ✅ Requirements
 
-- Java 17 or higher
 - Python 3.8 or higher
 - `pip` (Python package installer)
 
