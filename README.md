@@ -52,7 +52,7 @@ python src/passwordvault/gui.py
 
 ## 📅 Weekly Milestones
 
-We'll be using GitHub's **Issue Tracker** and **Milestones** to manage weekly development. 
+GitHub's **Issue Tracker** and **Milestones** is being used to manage weekly development. 
 
 ## ✍️ Authors
 Elsa Kieffer  
