@@ -124,6 +124,10 @@ class PasswordVaultGUI:
         self.style_button(save_btn)
         save_btn.pack(pady=10)
 
+        back_btn = tk.Button(frame, text="Back", command=self.main_menu)
+        self.style_button(back_btn)
+        back_btn.pack(pady=5)
+
     def retrieve_view(self):
         self.clear_window()
         frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
