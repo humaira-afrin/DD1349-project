@@ -2,14 +2,15 @@ import tkinter as tk
 from tkinter import messagebox
 from aes_crypto import PasswordManager
 import os
+from datetime import datetime
 
 class PasswordVaultGUI:
     def __init__(self, root):
         self.manager = PasswordManager()
         self.root = root
         self.root.title("PasswordVault 🔐")
-        self.root.geometry("600x500")
-        self.root.configure(bg="#FFC0CB")  # Classic pink
+        self.root.geometry("800x650")
+        self.root.configure(bg="#FFC0CB")  
 
         if not os.path.exists(self.manager.storage_file):
             self.first_time_view()
@@ -21,17 +22,16 @@ class PasswordVaultGUI:
         button.configure(
             bg="white",
             fg="black",
-            font=("Segoe UI", 12),
+            font=("Segoe UI", 16),
             relief="solid",
             bd=1,
-            padx=10,
-            pady=5
+            padx=20,
+            pady=10
         )
 
     def first_time_view(self):
         self.clear_window()
-
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
         welcome_msg = (
@@ -42,10 +42,10 @@ class PasswordVaultGUI:
             "🧠 Don't forget it, it can't be recovered!"
         )
 
-        tk.Label(frame, text=welcome_msg, bg="#FFC0CB", font=("Segoe UI", 12), justify="left", wraplength=400).pack(pady=10)
+        tk.Label(frame, text=welcome_msg, bg="#FFC0CB", font=("Segoe UI", 16), justify="left", wraplength=500).pack(pady=10)
 
-        tk.Label(frame, text="Set master password:", font=("Segoe UI", 14), bg="#FFC0CB", fg="#333333").pack(pady=10)
-        self.new_pw_entry = tk.Entry(frame, font=("Segoe UI", 12), show="*")
+        tk.Label(frame, text="Set master password:", font=("Segoe UI", 18), bg="#FFC0CB", fg="#333333").pack(pady=10)
+        self.new_pw_entry = tk.Entry(frame, font=("Segoe UI", 16), show="*")
         self.new_pw_entry.pack(pady=5)
 
         create_btn = tk.Button(frame, text="Create", command=self.set_first_master)
@@ -63,12 +63,11 @@ class PasswordVaultGUI:
 
     def login_view(self):
         self.clear_window()
-
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
-        tk.Label(frame, text="Enter master password:", font=("Segoe UI", 16, "bold"), bg="#FFC0CB", fg="black").pack(pady=10)
-        self.pw_entry = tk.Entry(frame, show="*", font=("Segoe UI", 12))
+        tk.Label(frame, text="Enter master password:", font=("Segoe UI", 20, "bold"), bg="#FFC0CB", fg="black").pack(pady=10)
+        self.pw_entry = tk.Entry(frame, show="*", font=("Segoe UI", 16))
         self.pw_entry.pack(pady=5)
 
         login_btn = tk.Button(frame, text="Login", command=self.verify_password)
@@ -86,33 +85,31 @@ class PasswordVaultGUI:
 
     def main_menu(self):
         self.clear_window()
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
-        tk.Label(frame, text="🔐 Welcome to PasswordVault", font=("Segoe UI", 18, "bold"), bg="#FFC0CB", fg="#333").pack(pady=20)
-        self.root.update_idletasks()  # rendering happens directly
+        tk.Label(frame, text="🔐 Welcome to PasswordVault", font=("Segoe UI", 22, "bold"), bg="#FFC0CB", fg="#333").pack(pady=20)
 
         btn_store = tk.Button(frame, text="Store new password", command=self.store_view)
         btn_retrieve = tk.Button(frame, text="Retrieve password", command=self.retrieve_view)
-        btn_view_sites = tk.Button(frame, text="Saved sites", command=self.view_all_sites)  # New button to view all sites
+        btn_view_sites = tk.Button(frame, text="Saved sites", command=self.view_all_sites)
         btn_exit = tk.Button(frame, text="Exit", command=self.root.quit)
 
-
-        for btn in [btn_store, btn_retrieve,btn_view_sites, btn_exit]:
+        for btn in [btn_store, btn_retrieve, btn_view_sites, btn_exit]:
             self.style_button(btn)
             btn.pack(pady=5)
 
     def store_view(self):
         self.clear_window()
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
-        tk.Label(frame, text="Site name:", font=("Segoe UI", 12), bg="#FFC0CB").pack()
-        site_entry = tk.Entry(frame)
+        tk.Label(frame, text="Site name:", font=("Segoe UI", 16), bg="#FFC0CB").pack()
+        site_entry = tk.Entry(frame, font=("Segoe UI", 14))
         site_entry.pack(pady=5)
 
-        tk.Label(frame, text="Password:", font=("Segoe UI", 12), bg="#FFC0CB").pack()
-        pw_entry = tk.Entry(frame)
+        tk.Label(frame, text="Password:", font=("Segoe UI", 16), bg="#FFC0CB").pack()
+        pw_entry = tk.Entry(frame, font=("Segoe UI", 14))
         pw_entry.pack(pady=5)
 
         def store():
@@ -130,16 +127,14 @@ class PasswordVaultGUI:
         back_btn = tk.Button(frame, text="Back", command=self.main_menu)
         self.style_button(back_btn)
         back_btn.pack(pady=5)
-        self.root.update_idletasks()
-
 
     def retrieve_view(self):
         self.clear_window()
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
-        tk.Label(frame, text="Enter site name:", font=("Segoe UI", 12), bg="#FFC0CB").pack()
-        site_entry = tk.Entry(frame)
+        tk.Label(frame, text="Enter site name:", font=("Segoe UI", 16), bg="#FFC0CB").pack()
+        site_entry = tk.Entry(frame, font=("Segoe UI", 14))
         site_entry.pack(pady=5)
 
         def retrieve():
@@ -147,9 +142,14 @@ class PasswordVaultGUI:
             if site in self.manager.password_store:
                 try:
                     decrypted = self.manager.decrypt(self.manager.password_store[site])
-                    messagebox.showinfo("Password", f"Password for '{site}': {decrypted}")
-                    password_display = f"Site: {site}\nPassword: {decrypted}"
-                    tk.Label(self.root, text=password_display, font=("Arial", 12), bg="#FFC0CB", justify="left").pack(pady=10)
+                    prev_time = self.manager.retrieval_timestamps.get(site)
+                    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    self.manager.retrieval_timestamps[site] = now
+                    self.manager.save_passwords()
+                    if prev_time:
+                        messagebox.showinfo("Password", f"Password for '{site}': {decrypted}\nLast retrieved: {prev_time}")
+                    else:
+                        messagebox.showinfo("Password", f"Password for '{site}': {decrypted}\nRetrieved for the first time.")
                 except Exception:
                     messagebox.showerror("Error", "Failed to decrypt.")
             else:
@@ -163,58 +163,50 @@ class PasswordVaultGUI:
         back_btn = tk.Button(frame, text="Back", command=self.main_menu)
         self.style_button(back_btn)
         back_btn.pack(pady=5)
-        self.root.update_idletasks()
-
 
     def view_all_sites(self):
         self.clear_window()
-        frame = tk.Frame(self.root, bg="#FFC0CB", padx=40, pady=40)
+        frame = tk.Frame(self.root, bg="#FFC0CB", padx=60, pady=60)
         frame.pack(expand=True)
 
-        tk.Label(frame, text="Saved Sites and Passwords", font=("Arial", 16), bg="#FFC0CB").pack(pady=20)
+        tk.Label(frame, text="Saved Sites", font=("Arial", 20), bg="#FFC0CB").pack(pady=20)
 
-        site_listbox = tk.Listbox(frame, font=("Arial", 12), width=40, height=10)
+        site_listbox = tk.Listbox(frame, font=("Arial", 16), width=40, height=10)
         site_listbox.pack(pady=10)
 
-        # site names
         for site in self.manager.password_store:
             site_listbox.insert(tk.END, site)
 
-        back_btn = tk.Button(frame, text="Back", command=self.main_menu)
-        self.style_button(back_btn)
-        back_btn.pack(pady=5)
+        def show_password():
+            selected_site = site_listbox.get(tk.ACTIVE)
+            if selected_site in self.manager.password_store:
+                try:
+                    decrypted = self.manager.decrypt(self.manager.password_store[selected_site])
+                    prev_time = self.manager.retrieval_timestamps.get(selected_site)
+                    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    self.manager.retrieval_timestamps[selected_site] = now
+                    self.manager.save_passwords()
+                    if prev_time:
+                        messagebox.showinfo("Password", f"Password for '{selected_site}': {decrypted}\nLast retrieved: {prev_time}")
+                    else:
+                        messagebox.showinfo("Password", f"Password for '{selected_site}': {decrypted}\nRetrieved for the first time.")
+                except Exception:
+                    messagebox.showerror("Error", "Failed to decrypt.")
+            else:
+                messagebox.showwarning("Not found", "Site not found.")
 
-    def show_password():
-        selected_site = site_listbox.get(tk.ACTIVE)
-        if selected_site in self.manager.password_store:
-            try:
-                decrypted = self.manager.decrypt(self.manager.password_store[selected_site])
-                # Display the password in a pop-up message
-                messagebox.showinfo("Password", f"Password for '{selected_site}': {decrypted}")
-            except Exception:
-                messagebox.showerror("Error", "Failed to decrypt.")
-        else:
-            messagebox.showwarning("Not found", "Site not found.")
-
-        # Button to retrieve password for the selected site
-        retrieve_btn = tk.Button(frame, text="Show Password", command=show_password, font=("Arial", 12))
+        retrieve_btn = tk.Button(frame, text="Show Password", command=show_password, font=("Arial", 16))
         self.style_button(retrieve_btn)
         retrieve_btn.pack(pady=10)
 
-        # Back button to return to the main menu
-        back_btn = tk.Button(frame, text="Back", command=self.main_menu, font=("Arial", 12))
+        back_btn = tk.Button(frame, text="Back", command=self.main_menu, font=("Arial", 16))
         self.style_button(back_btn)
         back_btn.pack(pady=5)
-
-        self.root.update_idletasks()
-
-
 
     def clear_window(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
-# Launch app
 if __name__ == "__main__":
     root = tk.Tk()
     app = PasswordVaultGUI(root)
