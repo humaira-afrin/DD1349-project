@@ -2,6 +2,7 @@ import os
 import base64
 import hashlib
 import json
+from datetime import datetime
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
@@ -15,6 +16,7 @@ class PasswordManager:
         self.master_password = None
         self.master_hash = None
         self.password_store = {}
+        self.retrieval_timestamps = {}  
         self.storage_file = storage_file
 
     def first_time_setup(self, password):
@@ -22,6 +24,7 @@ class PasswordManager:
         self.master_hash = self.hash_password(password)
         self.aes_key = self.derive_key(password)
         self.password_store = {}
+        self.retrieval_timestamps = {} 
         self.save_passwords()
         print("🔐 Master password set.\n")
 
@@ -79,7 +82,6 @@ class PasswordManager:
         encrypted = self.encrypt(site_password)
         self.password_store[site] = encrypted
         self.save_passwords()
-
         print(f" Password for '{site}' stored securely.")
 
     def retrieve_password(self):
@@ -87,7 +89,10 @@ class PasswordManager:
         if site in self.password_store:
             try:
                 decrypted = self.decrypt(self.password_store[site])
-                print(f"🔓 Password for '{site}': {decrypted}")
+                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Timestamping
+                self.retrieval_timestamps[site] = now
+                self.save_passwords()
+                print(f"🔓 Password for '{site}': {decrypted} (retrieved on {now})")
             except Exception:
                 print(" X Failed to decrypt. Wrong key?")
         else:
@@ -118,7 +123,8 @@ class PasswordManager:
             with open(self.storage_file, "w") as f:
                 data = {
                     "master_hash": self.master_hash,
-                    "passwords": self.password_store
+                    "passwords": self.password_store,
+                    "retrieval_timestamps": self.retrieval_timestamps  
                 }
                 json.dump(data, f)
             print("Passwords saved to file.")
@@ -132,6 +138,7 @@ class PasswordManager:
                     data = json.load(f)
                     self.master_hash = data.get("master_hash")
                     self.password_store = data.get("passwords", {})
+                    self.retrieval_timestamps = data.get("retrieval_timestamps", {})  
                 print("#### Loaded existing passwords from file.")
             except Exception as e:
                 print("!! Failed to load saved passwords:", e)
